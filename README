@@ -1,7 +1,7 @@
 This tool was originaly written by giapnguyen
 ( see https://github.com/giapnguyen/snmpbuilder)
 
-from originam README:
+from original README (from giapnguen):
 
 	I write the tool because I'm tired in create SNMP items for zabbix.
 	To create a useful zabbix's template for SNMP devices, I used to open a MIB
