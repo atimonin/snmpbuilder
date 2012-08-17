@@ -18,7 +18,7 @@ from original README (from giapnguen):
 Installation
 
 Prerequisits: install snmp packet from your repo
-Now let's go.
+Now let's go. I'm a bit ubuntu-centric, so please read carefully and make changes sutable for you.
 (i'll mark all comments with '#', so you may copy-paste all to terminal or script):
 -----------------
 #1. download tar.gz file from github to your favorite directory
