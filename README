@@ -1,5 +1,10 @@
+Snmpbuilder is an addon for zabbix to help users use SNMP OIDS as zabbix items (data sources)
+
+
 This tool was originaly written by giapnguyen
 ( see https://github.com/giapnguyen/snmpbuilder)
+Later Sire adopted it for zabbix-2.0.0
+I've made some minor changes and installed it on zabbox-2.0.2
 
 from original README (from giapnguen):
 
