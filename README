@@ -1,0 +1,85 @@
+This tool was originaly written by giapnguyen
+( see https://github.com/giapnguyen/snmpbuilder)
+
+from originam README:
+
+	I write the tool because I'm tired in create SNMP items for zabbix.
+	To create a useful zabbix's template for SNMP devices, I used to open a MIB
+	browser to get correct OID then fill the zabbix's item forms.
+	It'm so boring when create a long list of items :-( .
+	There is a first attempt of work out this problem, zload_snmpwalk
+	http://zabbix.com/wiki/howto/monitor/snmp/zload_snmpwalk.
+	But I rather a GUI tool. So why just make one?
+
+	SNMP builder is a add-in for Zabbix. It provide browse MIB for values and
+	informations, automatically convert into Zabbix items and insert them
+	into a template.
+
+Installation
+
+Prerequisits: install snmp packet from your repo
+Now let's go.
+(i'll mark all comments with '#', so you may copy-paste all to terminal):
+-----------------
+#1. download tar.gz file from github to your favorite directory
+#	(name it $your_src for later )
+your_src=$PWD
+#
+#2. untar needed files
+tar xvzf snmpbuilder-for-2.0.2.tar.gz
+
+#3. become an apache user (www-data for ubuntu, if not, you may see it from
+#	ps aux|grep apache)
+sudo -s -u www-data
+
+#3. install images for snmpbuilder in zabbix frontend root directory
+#	(for ubuntu it is /var/www/zabbix):
+
+zabbix_frontend=/var/www/zabbix
+cd $zabbix_frontend
+tar xvzf $your_src/snmpbuilder-for-2.0.2/snmpbuilder-2.0_imgs.tar.gz
+
+#4. patch zabbix frontend
+patch -p1 < $your_src/snmpbuilder-for-2.0.2/snmpbuilder-2.0.patch
+
+#5. copy snmpbuilder files to frontend dir
+cp -r $your_src/snmpbuilder-for-2.0.2/zabbix/* .
+
+#6. if you need russian translation (if not, skip this step)
+#	patch .po file and rebuild .mo
+patch -p1 < $your_src/snmpbuilder-for-2.0.2/snmpbuilder-2.0-ru.patch
+cd locale
+./make_mo.sh
+
+#7. All done, you are again you, exit from sudo
+exit
+-----------------
+
+Now restart apache: 
+sudo service apache2 restart
+ or
+sudo /etc/init.d/apache2 restart
+
+
+How to use:
+
+In configuration mode yow should have "SNMP Builder" submenu, go there
+
+Fill in: Host (ip address), Community.
+Select MIB from dropdown list (for ex IF-MIB).
+You should see MIB subtree on the left.
+Click some leaf or table in subthee (for ex ifTable or sysUpTime).
+Now you shoud see SNMP data in "OID Data" table and some description
+ in "Information" window.
+Select the data you need in "OID Data" table, you'll see it's added as zabbix
+ item in "Item list" table. You may select multiple. To remove item click on it in
+ "Item list"
+To save items, select template from dropdown list and click save.
+You may also check "Create graph" checkbox to add grafs of all items you selected.
+
+Happy SNMPing!
+
+
+
+
+
