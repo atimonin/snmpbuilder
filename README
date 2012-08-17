@@ -34,7 +34,6 @@ sudo -s -u www-data
 
 #3. install images for snmpbuilder in zabbix frontend root directory
 #	(for ubuntu it is /var/www/zabbix):
-
 zabbix_frontend=/var/www/zabbix
 cd $zabbix_frontend
 tar xvzf $your_src/snmpbuilder-for-2.0.2/snmpbuilder-2.0_imgs.tar.gz

@@ -205,7 +205,7 @@ function onClickCell(e)
 						if (item)
 						{
 							if (descr)
-								item[1] += ' ' + descr;
+								item[1] += '(' + descr +')';
 							itemlist.appendData(item);
 						}
 						break;
@@ -282,7 +282,7 @@ function onClickHeader(e)
 								s_oid1 = item1[0].substr(0,item1[0].length - s_idx.length);
 								item1[0] = s_oid1 + row[0];
 								if (descr_idx > 0) 
-									item1[1] = item1[0] + row[descr_idx];
+									item1[1] = item1[0] + '(' + row[descr_idx] + ')';
 								itemlist.appendData(item1);
 							});
 							Event.element(e).setStyle('background-color: #ACCEDE');
