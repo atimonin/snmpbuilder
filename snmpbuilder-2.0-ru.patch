@@ -1,0 +1,141 @@
+--- php/locale/ru/LC_MESSAGES/frontend.po	2012-07-31 13:16:48.000000000 +0400
++++ zabbix/locale/ru/LC_MESSAGES/frontend.po	2012-08-17 12:45:48.402740676 +0400
+@@ -1290,6 +1290,11 @@
+ msgid "Cannot create discovery rule"
+ msgstr "Не удалось создать правило обнаружения"
+ 
++#: snmp_builder.php:1090
++#, php-format
++msgid "Cannot create graph for non-numeric item, skipping \"%1$s\""
++msgstr "Невозможно создать график для нечислового элемента данных\"%1$s\""
++
+ #: api/classes/CHostGroup.php:616
+ msgid "Cannot create group without name."
+ msgstr "Невозможно создать группу без имени."
+@@ -2114,6 +2119,10 @@
+ msgid "Clear when unlinking"
+ msgstr "Очистить при отсоединении"
+ 
++#: snmp_builder.php:565
++msgid "Click to force view as table"
++msgstr "Принудительно представить в виде таблицы"
++
+ #: include/screens.inc.php:28
+ msgid "Clock"
+ msgstr "Часы"
+@@ -3358,6 +3367,10 @@
+ msgid "Delimiter"
+ msgstr "Разделитель"
+ 
++#: snmp_builder.php:763
++msgid "Delta"
++msgstr "Дельта"
++
+ #: include/views/configuration.item.edit.php:364
+ #: include/views/configuration.item.massupdate.php:376
+ msgid "Delta (simple change)"
+@@ -6353,6 +6366,11 @@
+ msgid "Invalid Request."
+ msgstr "Ошибочный запрос."
+ 
++#: snmp_builder.php:153
++#, php-format
++msgid "Invalid host address \"%1$s\""
++msgstr "Недопустимый адрес узла сети \"%1$s\""
++
+ #: api/classes/CUserMacro.php:928
+ #, php-format
+ msgid "Invalid hostid for macro \"%1$s\"."
+@@ -6377,6 +6395,11 @@
+ msgid "Invalid time period"
+ msgstr "Ошибочный период времени"
+ 
++#: snmp_builder.php:339
++#, php-format
++msgid "Invalid type \"%1$s\""
++msgstr "Недопустимый тип \"%1$s\""
++
+ #: include/classes/class.cview.php:62
+ #, php-format
+ msgid "Invalid view name given \"%s\". Allowed chars: \"a-z\" and \".\"."
+@@ -7988,6 +8011,10 @@
+ msgid "No host IDs given."
+ msgstr "Не указаны ID узлов сети."
+ 
++#: snmp_builder.php:851 snmp_builder.php:890
++msgid "No host address provided"
++msgstr "Не указан адрес узла сети"
++
+ #: api/classes/CUserMacro.php:925
+ #, php-format
+ msgid "No host given for macro \"%1$s\"."
+@@ -8546,6 +8573,27 @@
+ msgid "OEM"
+ msgstr "OEM"
+ 
++#: snmp_builder.php:565
++msgid "OID Data"
++msgstr "Данные OID"
++
++#: snmp_builder.php:756 snmp_builder.php:762
++msgid "OID Name"
++msgstr "Имя OID"
++
++#: snmp_builder.php:535
++msgid "OID Tree"
++msgstr "Дерево OID"
++
++#: snmp_builder.php:324
++#, php-format
++msgid "OID is null \"%1$s\""
++msgstr "OID пуст \"%1$s\""
++
++#: snmp_builder.php:314
++msgid "OID list is null"
++msgstr "Список OID пуст"
++
+ #: chart4.php:167 chart5.php:193 httpdetails.php:146 httpdetails.php:211
+ #: httpmon.php:260 include/classes/tree/CServiceTree.php:46
+ #: include/maps.inc.php:617 include/maps.inc.php:707 include/maps.inc.php:804
+@@ -9935,6 +9983,11 @@
+ #: include/hosts.inc.php:471 include/items.inc.php:183
+ msgid "SNMP"
+ msgstr "SNMP"
++ 
++#: include/menu.inc.php:283 snmp_builder.php:32 snmp_builder.php:437
++#: snmp_builder.php:515
++msgid "SNMP Builder"
++msgstr "Импорт SNMP MIB"
+ 
+ #: include/views/js/configuration.discovery.edit.js.php:36
+ msgid "SNMP Key"
+@@ -9965,6 +10018,10 @@
+ msgid "SNMP trap key is invalid."
+ msgstr "Ключ SNMP trap ошибочный."
+ 
++#: snmp_builder.php:505
++msgid "SNMP Version"
++msgstr "Версия SNMP"
++
+ #: include/discovery.inc.php:67 include/items.inc.php:79
+ #: include/views/js/configuration.discovery.edit.js.php:129
+ msgid "SNMPv1 agent"
+@@ -12455,6 +12512,18 @@
+ msgid "Warning. Field \"%1$s\" must be missing."
+ msgstr "Предупреждение. Поле \"%1$s\" должно быть пропущено."
+ 
++#: snmp_builder.php:125 snmp_builder.php:137 snmp_builder.php:292
++#, php-format
++msgid "Warning. Incorrect value for \"%1$s\""
++msgstr "Предупреждение. Некорректное значение для \"%1$s\""
++
++#: snmp_builder.php:262 snmp_builder.php:296 snmp_builder.php:299
++#: snmp_builder.php:302 snmp_builder.php:305 snmp_builder.php:308
++#: snmp_builder.php:1046
++#, php-format
++msgid "Warning. Incorrect value for field \"%1$s\""
++msgstr "Предупреждение. Некорректное значение для поля \"%1$s\""
++
+ #: include/validate.inc.php:521
+ #, php-format
+ msgid "Warning. Incorrect value for field \"%1$s\"."
