@@ -19,30 +19,32 @@ Installation
 
 Prerequisits: install snmp packet from your repo
 Now let's go.
-(i'll mark all comments with '#', so you may copy-paste all to terminal):
+(i'll mark all comments with '#', so you may copy-paste all to terminal or script):
 -----------------
 #1. download tar.gz file from github to your favorite directory
 #	(name it $your_src for later )
+#	also name tar file $dist_name
 your_src=$PWD
+dist_name=`basename atimonin-snmpbuilder-* .tar.gz`
 #
 #2. untar needed files
-tar xvzf snmpbuilder-for-2.0.2.tar.gz
+tar xvzf $distname.tar.gz
 
 #3. become an apache user (www-data for ubuntu, if not, you may see it from
 #	ps aux|grep apache)
-sudo -s -u www-data
+sudo -s -u www-data <<END_OF_SCRIPT
 
 #3. install images for snmpbuilder in zabbix frontend root directory
 #	(for ubuntu it is /var/www/zabbix):
 zabbix_frontend=/var/www/zabbix
 cd $zabbix_frontend
-tar xvzf $your_src/snmpbuilder-for-2.0.2/snmpbuilder-2.0_imgs.tar.gz
+tar xvzf $your_src/$distname/snmpbuilder-2.0_imgs.tar.gz
 
 #4. patch zabbix frontend
-patch -p1 < $your_src/snmpbuilder-for-2.0.2/snmpbuilder-2.0.patch
+patch -p1 < $your_src/$distname/snmpbuilder-2.0.patch
 
 #5. copy snmpbuilder files to frontend dir
-cp -r $your_src/snmpbuilder-for-2.0.2/zabbix/* .
+cp -r $your_src/$distname/zabbix/* .
 
 #6. if you need russian translation (if not, skip this step)
 #	patch .po file and rebuild .mo
@@ -51,7 +53,7 @@ cd locale
 ./make_mo.sh
 
 #7. All done, you are again you, exit from sudo
-exit
+END_OF_SCRIPT
 -----------------
 
 Now restart apache: 
