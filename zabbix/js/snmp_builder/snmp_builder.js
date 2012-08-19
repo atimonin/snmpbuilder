@@ -39,7 +39,7 @@ function clickTree(oid, idx, viewtype, column_names)
 	var mib = $F($('mib'));
 	var get_oid_url = 'snmp_builder.php?select=1&output=json';
 
-	var server_port = server_ip.match(/\d+$/);
+	var server_port = server_ip.match(/\d+$/); // FIXME?
 	if (!server_port) server_port = 161;
 	
 	oidview._oid = oid;
@@ -165,7 +165,7 @@ function onClickCell(e)
 	var community = $F($('community'));
 	var mib = $F($('mib'));
 
-	var server_port = server_ip.match(/\d+$/);
+	var server_port = server_ip.match(/\d+$/); // FIXME?
 	if (!server_port) server_port = 161;
 	
 	var x = Event.element(e).table_x;
@@ -227,14 +227,14 @@ function onClickHeader(e)
 	var community = $F($('community'));
 	var mib = $F($('mib'));
 
-	var server_port = server_ip.match(/\d+$/);
+	var server_port = server_ip.match(/\d+$/); // FIXME?
 	if (!server_port) server_port = 161;
 	
 	var x = Event.element(e).table_x;
 	var get_oid_url = 'snmp_builder.php?select=1&output=json';
 	var descr_idx;
 
-	if (x>0)
+	if (x>0) // first column is index, do nothing
 	{
 		oid = this.headers[x];
 		idx = this.data.first()[0]; 
@@ -284,8 +284,9 @@ function onClickHeader(e)
 								if (descr_idx > 0) 
 									item1[1] = item1[0] + '(' + row[descr_idx] + ')';
 								itemlist.appendData(item1);
+								row[x].setStyle('background-color: #ACCEDE');
 							});
-							Event.element(e).setStyle('background-color: #ACCEDE');
+							Event.element(e).setStyle('background-color: #ACCEDE'); //FIXME do we need it?
 						}
 						break;
 				}
@@ -315,7 +316,7 @@ function onSaveItems(e)
 	var draw_type = $F($('draw_type'));
 	var yaxisside = $F($('yaxisside'));
 
-	var server_port = server_ip.match(/\d+$/);
+	var server_port = server_ip.match(/\d+$/); //FIXME?
 	if (!server_port) server_port = 161;
 	
 	if (itemlist.data.size() === 0)
@@ -380,6 +381,38 @@ function onClickItem(e)
 	var y = Event.element(e).table_y;
 	var value = this.data[y];
 	this.update(null,this.data.without(value),null);
+	// clear cell highlite in oidview
+	var oid = value[0];
+	var baseOid=oid.match(/:(\w+)\.\d+$/); // FIXME check it!!!
+	var table = document.getElementById('oidview');
+	if (table) {
+	    var tbody = table.getElementsByTagName('TBODY')[0];
+	    var numRows = tbody.rows.length;
+	    if (table.observer == onClickOid) // full information FIXME or === ?check it!!!
+	    {
+		if (tbody.rows[0].cells[0] == oid)
+		    tbody.rows[0].cells.each (function(cell) {
+			cell.setStyle('background-color:#DEDEDE');
+		    });
+	    } else { // table view
+		for (var col = 0; col < table.headers.length; column++)
+		    if (table.headers[col] == baseOid) // FIXME or ===?
+			break;
+		}
+		if (col) {
+		    for (var row = 0; row < numRows; row++) {
+			var cell = tbody.rows[row].cells[col];
+			if (row == 0) {
+			    cell.setStyle('background-color:#CDCECD');
+			} else if ((row % 2) == 0) {
+			    cell.setStyle('background-color:#DEDEDE');
+			} else {
+			    cell.setStyle('background-color:#EEEEEE');
+			}
+		    }
+		}
+	    }
+	}
 }
 
 //On click the viewtype checkbox
