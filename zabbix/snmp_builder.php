@@ -38,8 +38,8 @@ $page['type'] = detect_page_type(PAGE_TYPE_HTML);
 require_once dirname(__FILE__).'/include/page_header.php';
 ?>
 <?php
-$left_widget_width = '300px';
-$right_widget_width = '800px';
+$left_widget_width = '40%'; // was'300px'
+$right_widget_width = '60%'; // was '800px'
 //$mibs_dir = dirname(__FILE__).'/snmp_builder/mibs';
 $mibs_dir = '/usr/share/snmp/mibs';
 define('MIBS_ALL_PATH', "/usr/share/snmp/mibs");
