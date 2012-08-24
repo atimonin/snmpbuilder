@@ -172,6 +172,8 @@ function onClickCell(e)
 	var y = Event.element(e).table_y;
 	var descr;
 
+	console.log("ClickSell:", x, "-", y);
+
 	if (x > 0)
 	{
 		oid = this.headers[x];
@@ -230,13 +232,15 @@ function onClickHeader(e)
 	var server_port = server_ip.match(/\d+$/); // FIXME?
 	if (!server_port) server_port = 161;
 	
-	var x = Event.element(e).table_x;
+	var col_idx = Event.element(e).table_x;
 	var get_oid_url = 'snmp_builder.php?select=1&output=json';
 	var descr_idx;
 
-	if (x>0) // first column is index, do nothing
+	console.log ("ClickHeader", col_idx);	// DEBUG
+
+	if (col_idx>0) // first column is index, do nothing
 	{
-		oid = this.headers[x];
+		oid = this.headers[col_idx];
 		idx = this.data.first()[0]; 
 		var s_idx = new String(idx);
 				
@@ -253,6 +257,7 @@ function onClickHeader(e)
 			if(this.headers[i].match(/Descr$/))
 			{
 				descr_idx = i;
+				console.log ("descr: ", this.headers[i]); // DEBUG
 				break;
 			}
 		}
@@ -274,9 +279,10 @@ function onClickHeader(e)
 				{
 					case 0: //full information
 						var item = convertOid(json.value.row[0],json.value.row[1]);
-						
 						if (item)
 						{
+							var tbody = this.tbody;
+							var i = 1; // row 0 is headers FIXME
 							this.data.each(function (row){
 								item1 = item.clone();
 								s_oid1 = item1[0].substr(0,item1[0].length - s_idx.length);
@@ -284,13 +290,15 @@ function onClickHeader(e)
 								if (descr_idx > 0) 
 									item1[1] = item1[0] + '(' + row[descr_idx] + ')';
 								itemlist.appendData(item1);
-								row[x].setStyle('background-color: #ACCEDE');
+								var cell = tbody.getElementsByTagName('TR')[i].getElementsByTagName('TD')[col_idx];
+								cell.setStyle('background-color: #ACCEDE');
+								i++;
 							});
-							Event.element(e).setStyle('background-color: #ACCEDE'); //FIXME do we need it?
+							// Event.element(e).setStyle('background-color: #ACCEDE'); //FIXME do we need it?
 						}
 						break;
 				}
-			}.bind(this)
+			}.bind(this) // oidView table
 		});
 	}
 	
@@ -349,15 +357,17 @@ function onClearItems(e)
 	itemlist.clear();
 
 	// Clear cell highlits
-	var table = document.getElementById('oidview');
+//	document.getElementById("dyntable-oidview").getElementsByTagName("tr")[3].childNodes[6].setStyle('background-color:#BEBEBE')
+	var table = document.getElementById('dyntable-oidview').getElementsByTagName("tr"); //('oidview');
+	console.log (table); // DEBUG
 	if (table) {
-	    var tbody = table.getElementsByTagName('TBODY')[0];
-	    var numRows = tbody.rows.length;
+	    var numRows = table.length;
 	    if (numRows) {
 		for (var i=0; i<numRows; i++) {
-		    var numCells = tbody.rows[i].cells.length;
+		    var row = table[i].childNodes;
+		    var numCells = row.length;
 		    for (var j=0; j<numCells; j++) {
-			var cell = tbody.rows[i].cells[j];
+			var cell = row[j];
 			if (cell) {
 			    if (i == 0) {
 				cell.setStyle('background-color:#CDCECD');
@@ -383,31 +393,40 @@ function onClickItem(e)
 	this.update(null,this.data.without(value),null);
 	// clear cell highlite in oidview
 	var oid = value[0];
-	var baseOid=oid.match(/:(\w+)\.\d+$/); // FIXME check it!!!
-	var table = document.getElementById('oidview');
-	if (table) {
-	    var tbody = table.getElementsByTagName('TBODY')[0];
-	    var numRows = tbody.rows.length;
-	    if (table.observer == onClickOid) // full information FIXME or === ?check it!!!
-	    {
-		if (tbody.rows[0].cells[0] == oid)
-		    tbody.rows[0].cells.each (function(cell) {
-			cell.setStyle('background-color:#DEDEDE');
-		    });
+	var table = oidview.data;
+	var tbody = oidview.tbody.getElementsByTagName('TR');
+	if (tbody) {
+	    if (oidview.observer.tr) { // full information FIXME or === ?check it!!!
+		var datarow = tbody[1].getElementsByTagName('TD');  // row 0 is headers FIXME
+		console.log ("not table view (full info)");
+		if (datarow[0].innerHTML == oid)
+		    for (var i = 0; i < datarow.length; i++) {
+			datarow[i].setStyle('background-color:#DEDEDE');
+		    }
 	    } else { // table view
-		for (var col = 0; col < table.headers.length; column++)
-		    if (table.headers[col] == baseOid) // FIXME or ===?
+		console.log ("table view");
+		var splitOid = oid.match(/:(\w+)\.(\d+)$/); // FIXME check it!!!
+		var baseOid = splitOid[1];
+		var oid_idx = splitOid[2];		// FIXME only for int index???
+	        var numRows = table.length;
+		console.log ("baseOid:", baseOid); // DEBUG
+		for (var col = 0; col < numRows; col++) {
+		    if (oidview.headers[col] == baseOid) // FIXME or ===?
 			break;
 		}
 		if (col) {
-		    for (var row = 0; row < numRows; row++) {
-			var cell = tbody.rows[row].cells[col];
-			if (row == 0) {
-			    cell.setStyle('background-color:#CDCECD');
-			} else if ((row % 2) == 0) {
-			    cell.setStyle('background-color:#DEDEDE');
-			} else {
-			    cell.setStyle('background-color:#EEEEEE');
+		    for (var i = 0; i < numRows; i++) {
+			if (oidview.data[i][0] == oid_idx) {
+			    var tab_idx = i + 1;				// FIXME row 0 - headers!!!
+			    var cell = tbody[tab_idx].getElementsByTagName('TD')[col];
+			    if (tab_idx == 0) {
+				cell.setStyle('background-color:#CDCECD');
+			    } else if ((tab_idx % 2) == 0) {
+				cell.setStyle('background-color:#DEDEDE');
+			    } else {
+				cell.setStyle('background-color:#EEEEEE');
+			    }
+			    break;
 			}
 		    }
 		}
