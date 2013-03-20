@@ -1,0 +1,41 @@
+--- php/include/menu.inc.php	2013-02-12 04:27:24.000000000 -0700
++++ zabbix/include/menu.inc.php	2013-03-19 02:34:27.000000000 -0700
+@@ -214,6 +214,10 @@
+ 				'url' => 'services.php',
+ 				'label' => _('IT services')
+ 			),
++			array(
++				'url' => 'snmp_builder.php',
++				'label' => _('SNMP Builder')
++			),
+ 		)
+ 	),
+ 	'admin' => array(
+--- php/include/page_header.php	2013-02-12 04:27:24.000000000 -0700
++++ zabbix/include/page_header.php	2013-03-19 02:35:27.000000000 -0700
+@@ -149,6 +149,7 @@
+ 		<meta charset="utf-8" />
+ 		<link rel="shortcut icon" href="images/general/zabbix.ico" />
+ 		<link rel="stylesheet" type="text/css" href="css.css" />
++		<link rel="stylesheet" type="text/css" href="js/jquery/themes/mib/style.css" />
+ <?php
+ 	$css = ZBX_DEFAULT_THEME;
+ 	if (!ZBX_PAGE_NO_THEME) {
+--- php/jsLoader.php	2013-02-12 04:27:25.000000000 -0700
++++ zabbix/jsLoader.php	2013-03-19 02:36:45.000000000 -0700
+@@ -49,11 +49,15 @@
+ 
+ // available scripts 'scriptFileName' => 'path relative to js/'
+ $availableJScripts = array(
++	'snmp_builder.js' => 'snmp_builder/',
++	'DynTable.js' => 'snmp_builder/',
+ 	'common.js' => '',
+ 	'menu.js' => '',
+ 	'prototype.js' => '',
+ 	'jquery.js' => 'jquery/',
+ 	'jquery-ui.js' => 'jquery/',
++	'jquery.cookie.js' => 'jquery/',
++	'jquery.jstree.js' => 'jquery/',
+ 	'activity-indicator.js' => 'vendors/',
+ 	'gtlc.js' => '',
+ 	'functions.js' => '',
