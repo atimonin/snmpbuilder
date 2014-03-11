@@ -38,7 +38,7 @@ zabbix_frontend=/var/www/zabbix
 # Your favorite directory for downloads (your current dir for ex.)
 your_src=$PWD
 # Downloaded tar filename (also directory later)
-dist_name=`basename atimonin-snmpbuilder-* .tar.gz`
+distname=`basename atimonin-snmpbuilder-* .tar.gz`
 #
 #
 #3. untar needed files
